@@ -1,21 +1,24 @@
-import * as React from 'react';
-import type { AppProps } from 'next/app';
-import NextHead from 'next/head';
-import '../styles/globals.css';
+import * as React from "react";
+import type { AppProps } from "next/app";
+import "../styles/globals.css";
 
 // Imports
-import { chain, createClient, WagmiConfig, configureChains } from 'wagmi';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
+import { chain, createClient, WagmiConfig, configureChains } from "wagmi";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
 
-import '@rainbow-me/rainbowkit/styles.css';
+import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultWallets,
   RainbowKitProvider,
   Chain,
-} from '@rainbow-me/rainbowkit';
+} from "@rainbow-me/rainbowkit";
 
-import { useIsMounted } from '../hooks';
+import { AppLayout } from "@/components/layout";
+
+import { ENV_PROD, ENV_DEV } from "@/config";
+
+import { useIsMounted } from "../hooks";
 
 // Get environment variables
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
@@ -23,26 +26,37 @@ const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
 
 const hardhatChain: Chain = {
   id: 31337,
-  name: 'Hardhat',
+  name: "Hardhat",
   nativeCurrency: {
     decimals: 18,
-    name: 'Hardhat',
-    symbol: 'HARD',
+    name: "Hardhat",
+    symbol: "HARD",
   },
-  network: 'hardhat',
+  network: "hardhat",
   rpcUrls: {
-    default: 'http://127.0.0.1:8545',
+    default: "http://127.0.0.1:8545",
   },
   testnet: true,
 };
 
-const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, hardhatChain],
-  [alchemyProvider({ alchemyId }), publicProvider()]
-);
+const networks = [];
+if (ENV_PROD) {
+  // networks.push(chain.polygon);
+  networks.push(chain.polygonMumbai);
+}
+
+if (ENV_DEV) {
+  networks.push(chain.polygonMumbai);
+  networks.push(hardhatChain);
+}
+
+const { chains, provider } = configureChains(networks, [
+  alchemyProvider({ alchemyId }),
+  publicProvider(),
+]);
 
 const { connectors } = getDefaultWallets({
-  appName: 'Create-Web3',
+  appName: "Create-Web3",
   chains,
 });
 
@@ -59,10 +73,9 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider coolMode chains={chains}>
-        <NextHead>
-          <title>create-web3</title>
-        </NextHead>
-        <Component {...pageProps} />
+        <AppLayout>
+          <Component {...pageProps} />
+        </AppLayout>
       </RainbowKitProvider>
     </WagmiConfig>
   );
