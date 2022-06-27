@@ -1,8 +1,5 @@
 import Head from "next/head";
-import { Header } from "@/components/layout";
-import { Hero } from "@/components/sections/landing";
-
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Hero, What, How, Team } from "@/components/sections/landing";
 
 export default function Home() {
   return (
@@ -12,10 +9,12 @@ export default function Home() {
         <meta name="description" content="content here" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
 
       <main className="">
         <Hero />
+        <What />
+        <How />
+        <Team />
       </main>
     </div>
   );

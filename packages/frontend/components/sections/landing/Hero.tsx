@@ -1,29 +1,36 @@
+import { useRouter } from "next/router";
+
 import { Button } from "@/components/elements";
 
 export const Hero = () => {
+  const router = useRouter();
+
+  const handleEnter = () => {
+    console.log("enter");
+  };
+
   return (
-    <div className="relative pt-16 pb-32 overflow-hidden">
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-gray-100"
-      />
+    <div className="relative pt-16 pb-32 overflow-hidden bg-gradient-to-t from-purple-900/50">
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-48" />
       <div className="relative">
         <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
           <div className="px-4 max-w-xl mx-auto sm:px-6 lg:py-16 lg:max-w-none lg:mx-0 lg:px-0">
             <div>
               <div></div>
               <div className="mt-6">
-                <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
+                <h2 className="text-3xl font-extrabold tracking-tight text-slate-100">
                   Stay on top of customer support
                 </h2>
-                <p className="mt-4 text-lg text-gray-500">
+                <p className="mt-4 text-lg text-slate-300">
                   Semper curabitur ullamcorper posuere nunc sed. Ornare iaculis
                   bibendum malesuada faucibus lacinia porttitor. Pulvinar
                   laoreet sagittis viverra duis. In venenatis sem arcu pretium
                   pharetra at. Lectus viverra dui tellus ornare pharetra.
                 </p>
                 <div className="mt-6">
-                  <Button>Enter App</Button>
+                  <Button onClick={() => router.push("/mint")}>
+                    Enter App
+                  </Button>
                 </div>
               </div>
             </div>
