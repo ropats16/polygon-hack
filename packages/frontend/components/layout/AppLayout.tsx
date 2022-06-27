@@ -9,6 +9,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
     currentUser: null,
   };
 
+  // console.log("applayout");
+
   return (
     <UserContext.Provider value={injectContext}>
       <div className="flex flex-col h-screen bg-slate-900">
