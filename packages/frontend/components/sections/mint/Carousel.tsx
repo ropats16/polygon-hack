@@ -1,33 +1,53 @@
 import { useState } from 'react';
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { MotionFadeIn } from "@/components/motion";
+import { MintCard } from "@/components/elements/MintCard";
 
-export const Carousel = ({ section }: any) => {
-  const [selectedImage, setSelectedImage] = useState<number>(0)
-  console.log(selectedImage)
+export const Carousel = ({ section, handleSelect }: any) => {
+  const [selectedImage, setSelectedImage] = useState<number>(0);
+  const [direction, setDirection] = useState<string>('left');
+
+  const handleSelectedImage = (direction: string) => {
+    if (direction === "left") {
+      selectedImage === 0 ? setSelectedImage(section.cards.length - 1) : setSelectedImage(selectedImage - 1)
+      setDirection("left");
+    }
+    else {
+      selectedImage === section.cards.length - 1 ? setSelectedImage(0) : setSelectedImage(selectedImage + 1)
+      setDirection("right");
+    }
+  }
+
+  const handleSelectedValue = (name: string) => {
+    handleSelect(section.type.toLowerCase(), name);
+  }
+
   return (
-    <div className="flex">
-      {section && section?.map((object: any, i: number) => {
-        return (
-          <div className="mt-8">
-            <div className="max-w-sm h-72 overflow-hidden">
-              <AiOutlineLeft onClick={selectedImage === 0 ? () => setSelectedImage(section.length - 1) : () => setSelectedImage(selectedImage - 1)}
-                className='absolute left-0 text-3xl inset-y-1/2 text-white cursor-pointer'
-              />
-              <img
-                src={object.img}
-                alt="This is a carousel slide"
-                key={i}
-                className={
+    <MotionFadeIn>
+      <div className="border-white px-20 w-[30rem]">
+        <div className="mt-8 w-[20rem]">
+          <h3 className="text-3xl text-center pb-8">{section?.type}</h3>
+          {section && section?.cards.map((object: any, i: number) => {
+            return (
+              <div>
+                <div className={
                   i === selectedImage
-                    ? "block w-[250px] h-auto object-cover"
+                    ? "lg:block flex flex-col justify-center"
                     : "hidden"
-                }
-              />
-              <AiOutlineRight onClick={selectedImage === section.length - 1 ? () => setSelectedImage(0) : () => setSelectedImage(selectedImage + 1)} className='absolute right-0 text-3xl inset-y-1/2 text-white cursor-pointer' />
-            </div>
-          </div>
-        )
-      })}
-    </div>
+                }>
+                  <MintCard
+                    section={object}
+                    direction={direction}
+                    setDirection={setDirection}
+                    index={i}
+                    handleSelectedValue={handleSelectedValue}
+                    handleSelectedImage={handleSelectedImage}
+                  />
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </MotionFadeIn>
   )
 }
