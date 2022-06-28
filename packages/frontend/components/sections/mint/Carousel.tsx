@@ -28,7 +28,7 @@ export const Carousel = ({ section, handleSelect }: any) => {
           <h3 className="text-3xl text-center pb-8">{section?.type}</h3>
           {section && section?.cards.map((object: any, i: number) => {
             return (
-              <div>
+              <div key={i}>
                 <div className={
                   i === selectedImage
                     ? "lg:block flex flex-col justify-center"
