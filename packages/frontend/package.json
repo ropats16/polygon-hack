@@ -18,6 +18,7 @@
     "@ceramicnetwork/stream-tile": "^2.3.0",
     "@fluencelabs/fluence-network-environment": "^1.0.13",
     "@rainbow-me/rainbowkit": "^0.4.2",
+    "@alch/alchemy-web3": "^1.4.4",
     "ethers": "^5.6.9",
     "framer-motion": "^6.3.13",
     "lodash.merge": "^4.6.2",
