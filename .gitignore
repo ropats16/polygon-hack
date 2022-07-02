@@ -19,10 +19,6 @@ artifacts
 /packages/backend/node_modules
 /packages/backend/deployments/\*
 
-# Foundry files
-
-/packages/backend/cache
-/packages/backend/out
 
 # next.js
 
@@ -30,10 +26,10 @@ artifacts
 packages/frontend/.next/
 /out/
 
-# vite
+# generator
 
-/packages/frontend/node_modules
-/packages/frontend/dist
+/packages/generator/node_modules
+/packages/generator/build
 
 # production
 
