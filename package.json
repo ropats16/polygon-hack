@@ -12,7 +12,9 @@
     "chain": "yarn workspace @create-web3/backend chain",
     "compile": "yarn workspace @create-web3/backend compile",
     "clean": "yarn workspace @create-web3/backend clean",
-    "deploy": "yarn workspace @create-web3/backend deploy"
+    "deploy": "yarn workspace @create-web3/backend deploy",
+    "generate": "yarn workspace @create-web3/generator generate",
+    "update_info": "yarn workspace @create-web3/generator update_info"
   },
   "workspaces": {
     "packages": [
@@ -22,7 +24,9 @@
       "**/@graphprotocol/graph-ts",
       "**/@graphprotocol/graph-ts/**",
       "**/backend",
-      "**/backend/**"
+      "**/backend/**",
+      "**/generator",
+      "**/generator/**"
     ]
   }
 }
