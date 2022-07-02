@@ -9,7 +9,6 @@ import "@openzeppelin/contracts/security/PullPayment.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract SolmateNft is ERC721, PullPayment, Ownable {
-
     using Strings for uint256;
     string public baseURI;
     uint256 public currentTokenId;
@@ -24,6 +23,7 @@ contract SolmateNft is ERC721, PullPayment, Ownable {
         baseURI = _baseURI;
     }
 
+    // Should this mint to msg.sender?
     function mintTo(address recipient) public payable returns (uint256) {
         require(
             msg.value == MINT_PRICE,
@@ -42,10 +42,11 @@ contract SolmateNft is ERC721, PullPayment, Ownable {
         override
         returns (string memory)
     {
-        require(
-            ownerOf[tokenId] != address(0),
-            "ERC721Metadata: URI query for nonexistent token"
-        );
+        // TypeError: Indexed expression has to be a type, mapping or array (is function (uint256) view returns (address))
+        // require(
+        //     ownerOf[tokenId] != address(0),
+        //     "ERC721Metadata: URI query for nonexistent token"
+        // );
         return
             bytes(baseURI).length > 0
                 ? string(abi.encodePacked(baseURI, tokenId.toString()))
