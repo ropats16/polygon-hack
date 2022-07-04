@@ -5,10 +5,15 @@ import "hardhat/console.sol";
 
 import "@rari-capital/solmate/src/tokens/ERC721.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "@openzeppelin/contracts/security/PullPayment.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract SolmateNft is ERC721, PullPayment, Ownable {
+error MintPriceNotPaid();
+error MaxSupply();
+error NonExistentTokenURI();
+error WithdrawTransfer();
+
+contract SolmateNft is ERC721, Ownable {
+
     using Strings for uint256;
     string public baseURI;
     uint256 public currentTokenId;
@@ -22,15 +27,16 @@ contract SolmateNft is ERC721, PullPayment, Ownable {
     ) ERC721(_name, _symbol) {
         baseURI = _baseURI;
     }
-
+    
     // Should this mint to msg.sender?
     function mintTo(address recipient) public payable returns (uint256) {
-        require(
-            msg.value == MINT_PRICE,
-            "Transaction value did not equal the mint price"
-        );
+        if (msg.value != MINT_PRICE) {
+            revert MintPriceNotPaid();
+        }
         uint256 newTokenId = ++currentTokenId;
-        require(newTokenId <= TOTAL_SUPPLY, "Max supply reached");
+        if (newTokenId > TOTAL_SUPPLY) {
+            revert MaxSupply();
+        }
         _safeMint(recipient, newTokenId);
         return newTokenId;
     }
@@ -42,19 +48,20 @@ contract SolmateNft is ERC721, PullPayment, Ownable {
         override
         returns (string memory)
     {
-        // TypeError: Indexed expression has to be a type, mapping or array (is function (uint256) view returns (address))
-        // require(
-        //     ownerOf[tokenId] != address(0),
-        //     "ERC721Metadata: URI query for nonexistent token"
-        // );
+        if (ownerOf(tokenId) == address(0)) {
+            revert NonExistentTokenURI();
+        }
         return
             bytes(baseURI).length > 0
                 ? string(abi.encodePacked(baseURI, tokenId.toString()))
                 : "";
     }
 
-    /// @dev Overridden in order to make it an onlyOwner function
-    function withdrawPayments(address payable payee) public override onlyOwner {
-        super.withdrawPayments(payee);
+    function withdrawPayments(address payable payee) external onlyOwner {
+        uint256 balance = address(this).balance;
+        (bool transferTx, ) = payee.call{value: balance}("");
+        if (!transferTx) {
+            revert WithdrawTransfer();
+        }
     }
 }
