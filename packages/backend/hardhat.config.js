@@ -1,16 +1,16 @@
-require('@nomiclabs/hardhat-waffle');
-require('dotenv').config({ path: '../../.env' });
+require("@nomiclabs/hardhat-waffle");
+require("dotenv").config({ path: "../../.env" });
 
-require('hardhat-deploy');
-require('@nomiclabs/hardhat-ethers');
+require("hardhat-deploy");
+require("@nomiclabs/hardhat-ethers");
 
-const defaultNetwork = 'localhost';
+const defaultNetwork = "localhost";
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: '0.8.10',
+  solidity: "0.8.10",
   defaultNetwork,
 
   networks: {
@@ -45,10 +45,11 @@ module.exports = {
     // },
     goerli: {
       chainId: 5,
-      url: `https://rpc.ankr.com/eth_goerli`,
-    //   url: `https://goerli.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
+      url: `https://eth-goerli.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
+      // url: `https://rpc.ankr.com/eth_goerli`,
+      //   url: `https://goerli.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
       accounts: [`${process.env.PRIVATE_KEY}`],
-     },
+    },
     // kovan: {
     //   chainId: 42,
     //   url: `https://eth-kovan.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
