@@ -43,7 +43,7 @@ export const Menu = () => {
       className={classNames(isOpen ? "" : "h-20", "fixed inset-0 z-30 w-60")}
     >
       <motion.div
-        className="bg-white absolute w-60 top-0 left-0 bottom-0"
+        className="bg-slate-900/80 absolute w-60 top-0 left-0 bottom-0"
         variants={sidebar}
       >
         <Navigation onClick={() => toggleOpen()} />

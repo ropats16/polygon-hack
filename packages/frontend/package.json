@@ -7,9 +7,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "compile-aqua": "aqua -i ./aqua/ -o ./_aqua",
+    "watch-aqua": "chokidar \"**/*.aqua\" -c \"npm run compile-aqua\""
   },
   "dependencies": {
+    "@fluencelabs/fluence-network-environment": "^1.0.13",
     "@rainbow-me/rainbowkit": "^0.3.2",
     "ethers": "^5.6.9",
     "framer-motion": "^6.3.13",
@@ -20,12 +23,16 @@
     "wagmi": "^0.4.12"
   },
   "devDependencies": {
+    "@fluencelabs/aqua": "^0.7.4-322",
+    "@fluencelabs/aqua-lib": "^0.5.2",
+    "@fluencelabs/fluence": "^0.23.0",
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^1.0.6",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "autoprefixer": "^10.4.7",
+    "chokidar-cli": "^3.0.0",
     "eslint": "^8.17.0",
     "eslint-config-next": "^12.1.6",
     "postcss": "^8.4.14",

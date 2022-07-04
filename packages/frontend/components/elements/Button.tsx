@@ -1,4 +1,5 @@
 interface ButtonProps {
+  id?: string;
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
@@ -15,9 +16,10 @@ interface ButtonProps {
   loading?: boolean;
 }
 
-export const Button = ({ children, onClick }: ButtonProps) => {
+export const Button = ({ id, children, onClick }: ButtonProps) => {
   return (
     <button
+      id={id}
       onClick={onClick}
       className="inline-flex bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white hover:from-purple-700 hover:to-indigo-700"
     >
