@@ -28,5 +28,8 @@
       "**/generator",
       "**/generator/**"
     ]
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1"
   }
 }
