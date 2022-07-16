@@ -3,7 +3,7 @@ import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract DungeonsAndDragonsCharacter is ERC721, VRFConsumerBase, Ownable {
+contract ArenaOfWarriors is ERC721, VRFConsumerBase, Ownable {
     using SafeMath for uint256;
     using Strings for string;
 
@@ -11,18 +11,14 @@ contract DungeonsAndDragonsCharacter is ERC721, VRFConsumerBase, Ownable {
     uint256 internal fee;
     uint256 public randomResult;
     address public VRFCoordinator;
-    // rinkeby: 0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B
+    // Polygon Mumbai: 	0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed
     address public LinkToken;
-    // rinkeby: 0x01BE23585060835E02B77ef475b0Cc51aA1e0709a
+    // Polygon Mumbai: 0x326C977E6efc84E512bB9C30f76E30c160eD06FB
 
     struct Character {
         uint256 strength;
-        uint256 dexterity;
-        uint256 constitution;
-        uint256 intelligence;
-        uint256 wisdom;
-        uint256 charisma;
-        uint256 experience;
+        uint256 stamina;
+        uint256 speed;
         string name;
     }
 
@@ -35,10 +31,10 @@ contract DungeonsAndDragonsCharacter is ERC721, VRFConsumerBase, Ownable {
     /**
      * Constructor inherits VRFConsumerBase
      *
-     * Network: Rinkeby
-     * Chainlink VRF Coordinator address: 0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B
-     * LINK token address:                0x01BE23585060835E02B77ef475b0Cc51aA1e0709
-     * Key Hash: 0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311
+     * Network: Polygon Mumbai
+     * Chainlink VRF Coordinator address: 0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed
+     * LINK token address:                0x326C977E6efc84E512bB9C30f76E30c160eD06FB
+     * Key Hash: 0x4b09e658ed251bcafeebbc69400383d49f344ace09b9576fe248bb02c003fe9f
      */
     constructor(
         address _VRFCoordinator,
@@ -47,7 +43,7 @@ contract DungeonsAndDragonsCharacter is ERC721, VRFConsumerBase, Ownable {
     )
         public
         VRFConsumerBase(_VRFCoordinator, _LinkToken)
-        ERC721("DungeonsAndDragonsCharacter", "D&D")
+        ERC721("ArenaOfWarriors", "AOW")
     {
         VRFCoordinator = _VRFCoordinator;
         LinkToken = _LinkToken;
@@ -85,34 +81,32 @@ contract DungeonsAndDragonsCharacter is ERC721, VRFConsumerBase, Ownable {
         internal
         override
     {
+        /**speed: 43
+
+            stamina: 14
+
+            strength: 30 */
         uint256 newId = characters.length;
         uint256 strength = (randomNumber % 100);
-        uint256 dexterity = ((randomNumber % 10000) / 100);
-        uint256 constitution = ((randomNumber % 1000000) / 10000);
-        uint256 intelligence = ((randomNumber % 100000000) / 1000000);
-        uint256 wisdom = ((randomNumber % 10000000000) / 100000000);
-        uint256 charisma = ((randomNumber % 1000000000000) / 10000000000);
-        uint256 experience = 0;
+        uint256 stamina = ((randomNumber % 10000) / 100);
+        uint256 speed = ((randomNumber % 100000000) / 1000000);
 
         characters.push(
             Character(
                 strength,
-                dexterity,
-                constitution,
-                intelligence,
-                wisdom,
-                charisma,
-                experience,
+                stamina,
+                speed,
                 requestToCharacterName[requestId]
             )
         );
         _safeMint(requestToSender[requestId], newId);
     }
 
+    /** 
     function getLevel(uint256 tokenId) public view returns (uint256) {
         return sqrt(characters[tokenId].experience);
     }
-
+*/
     function getNumberOfCharacters() public view returns (uint256) {
         return characters.length;
     }
@@ -130,13 +124,9 @@ contract DungeonsAndDragonsCharacter is ERC721, VRFConsumerBase, Ownable {
         return (
             characters[tokenId].name,
             characters[tokenId].strength +
-                characters[tokenId].dexterity +
-                characters[tokenId].constitution +
-                characters[tokenId].intelligence +
-                characters[tokenId].wisdom +
-                characters[tokenId].charisma,
-            getLevel(tokenId),
-            characters[tokenId].experience
+                characters[tokenId].stamina +
+                characters[tokenId].speed,
+            getLevel(tokenId)
         );
     }
 
@@ -146,21 +136,13 @@ contract DungeonsAndDragonsCharacter is ERC721, VRFConsumerBase, Ownable {
         returns (
             uint256,
             uint256,
-            uint256,
-            uint256,
-            uint256,
-            uint256,
             uint256
         )
     {
         return (
             characters[tokenId].strength,
-            characters[tokenId].dexterity,
-            characters[tokenId].constitution,
-            characters[tokenId].intelligence,
-            characters[tokenId].wisdom,
-            characters[tokenId].charisma,
-            characters[tokenId].experience
+            characters[tokenId].stamina,
+            characters[tokenId].speed
         );
     }
 
