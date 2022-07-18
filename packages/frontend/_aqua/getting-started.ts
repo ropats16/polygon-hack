@@ -18,6 +18,7 @@ import {
 
 export interface HelloPeerDef {
     hello: (from: string, callParams: CallParams<'from'>) => string | Promise<string>;
+    is_connected: (peer: string, callParams: CallParams<'peer'>) => string | Promise<string>;
 }
 export function registerHelloPeer(service: HelloPeerDef): void;
 export function registerHelloPeer(serviceId: string, service: HelloPeerDef): void;
@@ -39,6 +40,27 @@ export function registerHelloPeer(...args: any) {
                     "tag" : "labeledProduct",
                     "fields" : {
                         "from" : {
+                            "tag" : "scalar",
+                            "name" : "string"
+                        }
+                    }
+                },
+                "codomain" : {
+                    "tag" : "unlabeledProduct",
+                    "items" : [
+                        {
+                            "tag" : "scalar",
+                            "name" : "string"
+                        }
+                    ]
+                }
+            },
+            "is_connected" : {
+                "tag" : "arrow",
+                "domain" : {
+                    "tag" : "labeledProduct",
+                    "fields" : {
+                        "peer" : {
                             "tag" : "scalar",
                             "name" : "string"
                         }

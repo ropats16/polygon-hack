@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "compile-aqua": "aqua -i ./aqua/ -o ./_aqua",
-    "watch-aqua": "chokidar \"**/*.aqua\" -c \"npm run compile-aqua\""
+    "watch-aqua": "chokidar \"**/*.aqua\" -c \"npm run compile-aqua\"",
+    "postinstall": "copy-marine public"
   },
   "dependencies": {
     "@fluencelabs/fluence-network-environment": "^1.0.13",
