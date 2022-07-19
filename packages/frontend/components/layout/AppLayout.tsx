@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { UserContext, Header } from "./";
 
 import { useAccount } from "wagmi";
@@ -15,6 +15,8 @@ interface AppLayoutProps {
 
 export const AppLayout = ({ children }: AppLayoutProps) => {
   const { address } = useAccount();
+
+  const [authenticatedCeramicInst, setAuthenticatedCeramicInst] = useState<any>();
 
   const authenticateWithEthereum = useCallback(
     (ethereumProvider: any) => {
@@ -51,6 +53,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           ceramic.did = did;
 
           console.log(ceramic.did);
+
+          setAuthenticatedCeramicInst(ceramic);
         } catch (error) {
           console.error(error);
         }
@@ -72,6 +76,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 
   const injectContext = {
     currentUser: null,
+    authenticatedCeramicInst,
   };
 
   // console.log("applayout");
