@@ -7,9 +7,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "compile-aqua": "aqua -i ./aqua/ -o ./_aqua",
+    "watch-aqua": "chokidar \"**/*.aqua\" -c \"npm run compile-aqua\"",
+    "postinstall": "copy-marine public"
   },
   "dependencies": {
+    "@fluencelabs/fluence-network-environment": "^1.0.13",
     "@3id/connect": "^0.4.1",
     "@ceramicnetwork/3id-did-resolver": "^2.1.3",
     "@ceramicnetwork/http-client": "^2.3.0",
@@ -24,12 +28,16 @@
     "wagmi": "^0.5.9"
   },
   "devDependencies": {
+    "@fluencelabs/aqua": "^0.7.4-322",
+    "@fluencelabs/aqua-lib": "^0.5.2",
+    "@fluencelabs/fluence": "^0.23.0",
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^1.0.6",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "autoprefixer": "^10.4.7",
+    "chokidar-cli": "^3.0.0",
     "dids": "^3.2.0",
     "eslint": "^8.17.0",
     "eslint-config-next": "^12.1.6",

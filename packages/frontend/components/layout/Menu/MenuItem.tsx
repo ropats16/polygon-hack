@@ -19,7 +19,8 @@ const variants = {
   },
 };
 
-const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF"];
+const colors = ["#AF31B7", "#952DAB", "#7E2A9F", "#65268F", "#4F227F"];
+const colorsRev = ["#3C1D6E", "#4F227F", "#65268F", "#7E2A9F", "#952DAB"];
 
 interface MenuItemProps {
   item: {
@@ -32,12 +33,13 @@ interface MenuItemProps {
 
 export const MenuItem = ({ item, onClick }: MenuItemProps) => {
   const router = useRouter();
+
   const style = {
-    border: `2px solid ${colors[item.id]}`,
+    background: `linear-gradient(to right, ${colorsRev[item.id]}, ${
+      colors[item.id]
+    })`,
   };
-  const textStyle = {
-    color: colors[item.id],
-  };
+
   return (
     <motion.button
       variants={variants}
@@ -49,15 +51,17 @@ export const MenuItem = ({ item, onClick }: MenuItemProps) => {
         onClick();
       }}
     >
-      <div className="flex w-full rounded-full" style={style}>
+      <div
+        className="flex w-full rounded-full shadow-lg shadow-slate-400 border-b border-slate-300"
+        style={style}
+      >
         <div>
           <div
-            className="h-10 w-10 rounded-full place-self-center"
-            style={style}
+            className={`h-10 w-10 rounded-full place-self-center border-slate-500 border shadow-lg`}
           ></div>
         </div>
 
-        <div className="w-full font-bold place-self-center" style={textStyle}>
+        <div className={`w-full font-bold place-self-center text-slate-100`}>
           {item.name}
         </div>
       </div>
