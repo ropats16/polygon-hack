@@ -8,6 +8,8 @@ const CeramicPage: NextPage = () => {
   const { authenticatedCeramicInst } = useContext(UserContext);
   const ceramic = authenticatedCeramicInst;
 
+  console.log(ceramic);
+
   const [schemaDoc, setSchemaDoc] = useState<any>();
   const [profileDoc, setProfileDoc] = useState<any>();
 
@@ -20,7 +22,7 @@ const CeramicPage: NextPage = () => {
         type: 'string',
         maxLength: 420,
       },
-      image: {
+      profileImage: {
         type: 'string',
         maxLength: 200,
       },
@@ -28,46 +30,157 @@ const CeramicPage: NextPage = () => {
         type: 'string',
         maxLength: 150,
       },
-      attributes: [
-        {
-          strength: {
-            type: 'integer',
-            maxLength: 2,
-          },
-          stamina: {
-            type: 'integer',
-            maxLength: 2,
-          },
-          speed: {
-            type: 'integer',
-            maxLength: 2,
-          },
-          health: {
-            type: 'integer',
-            maxLength: 2,
-          },
-          magicMastery: {
-            type: 'integer',
-            maxLength: 2,
-          },
-        },
-      ]
+      handle: {
+        type: 'string',
+        maxLength: 150,
+      },
+      id: {
+        type: 'string',
+        maxLength: 5,
+      },
+      assets: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            itemDescription: {
+              type: 'string',
+              maxLength: 420,
+            },
+            itemImage: {
+              type: 'string',
+              maxLength: 200,
+            },
+            itemName: {
+              type: 'string',
+              maxLength: 150,
+            },
+            itemAttributes: [
+              {
+                strength: {
+                  type: 'integer',
+                  maxLength: 2,
+                },
+                stamina: {
+                  type: 'integer',
+                  maxLength: 2,
+                },
+                speed: {
+                  type: 'integer',
+                  maxLength: 2,
+                },
+                health: {
+                  type: 'integer',
+                  maxLength: 2,
+                },
+                magicMastery: {
+                  type: 'integer',
+                  maxLength: 2,
+                },
+              },
+            ]
+          }
+        }
+      }
     },
-    required: ['description', 'image', 'name', 'attributes'],
+    required: ['name', 'handle'],
   }
+
+  // const schemaContent = {
+  //   $schema: 'http://json-schema.org/draft-07/schema#',
+  //   title: 'NFT Standard Schema Test',
+  //   type: 'object',
+  //   properties: {
+  //     description: {
+  //       type: 'string',
+  //       maxLength: 420,
+  //     },
+  //     image: {
+  //       type: 'string',
+  //       maxLength: 200,
+  //     },
+  //     name: {
+  //       type: 'string',
+  //       maxLength: 150,
+  //     },
+  //     attributes: [
+  //       {
+  //         strength: {
+  //           type: 'integer',
+  //           maxLength: 2,
+  //         },
+  //         stamina: {
+  //           type: 'integer',
+  //           maxLength: 2,
+  //         },
+  //         speed: {
+  //           type: 'integer',
+  //           maxLength: 2,
+  //         },
+  //         health: {
+  //           type: 'integer',
+  //           maxLength: 2,
+  //         },
+  //         magicMastery: {
+  //           type: 'integer',
+  //           maxLength: 2,
+  //         },
+  //       },
+  //     ]
+  //   },
+  //   required: ['description', 'image', 'name', 'attributes'],
+  // }
+
+  // const profileContent = {
+  //   description: 'Beveloper BAO | Development🤝Education | Full stack web3 dev | Buidlooor & Shipooor',
+  //   image: 'https://gateway.pinata.cloud/ipfs/QmQQpDbHBpsUyr16CWsCn5ji4TpZzoYxTmeZJchvRjpYmn',
+  //   name: 'Open Sourcerer',
+  //   attributes: [
+  //     {
+  //       strength: 99,
+  //       stamina: 87,
+  //       speed: 1,
+  //       health: 50,
+  //       magicMastery: 0,
+  //     }
+  //   ]
+  // }
 
   const profileContent = {
     description: 'Beveloper BAO | Development🤝Education | Full stack web3 dev | Buidlooor & Shipooor',
-    image: 'https://gateway.pinata.cloud/ipfs/QmQQpDbHBpsUyr16CWsCn5ji4TpZzoYxTmeZJchvRjpYmn',
+    profileImage: 'https://gateway.pinata.cloud/ipfs/QmQQpDbHBpsUyr16CWsCn5ji4TpZzoYxTmeZJchvRjpYmn',
     name: 'Open Sourcerer',
-    attributes: [
+    handle: '@beveloperbao.eth',
+    id: '16',
+    assets: [
       {
-        strength: 99,
-        stamina: 87,
-        speed: 1,
-        health: 50,
-        magicMastery: 0,
-      }
+        itemDescription: 'Fire Samurai with Katana',
+        itemImage: 'https://gateway.pinata.cloud/ipfs/QmQQpDbHBpsUyr16CWsCn5ji4TpZzoYxTmeZJchvRjpYmn',
+        itemName: 'Ronin 1',
+        itemAttributes: [
+          {
+            strength: 99,
+            stamina: 87,
+            speed: 1,
+            health: 50,
+            magicMastery: 0,
+          },
+        ],
+      },
+      {
+        itemDescription: 'Water Ninja with Nunchucks',
+        itemImage: 'https://pbs.twimg.com/media/ERD_ZUZUUAIkwRn.jpg:large',
+        itemName: 'Suigetsu',
+        itemAttributes: [
+          {
+            strength: 99,
+            stamina: 87,
+            speed: 50,
+            health: 100,
+            magicMastery: 30,
+          },
+        ],
+      },
     ]
   }
 
@@ -99,7 +212,7 @@ const CeramicPage: NextPage = () => {
   const loadSchemaDocument = async () => {
     const doc = await TileDocument.load(ceramic, schemaDoc.id);
     setSchemaDoc(doc);
-    console.log(schemaDoc);
+    console.log("Latest Schema Doc:", schemaDoc);
   }
 
   const createProfileDocument = async () => {
@@ -121,7 +234,7 @@ const CeramicPage: NextPage = () => {
     const doc = await TileDocument.load(ceramic, profileDoc.commitId);
     setProfileDoc(doc)
     console.log(doc);
-    console.log(profileDoc);
+    console.log("Latest Profile Doc:", profileDoc);
   }
 
   return (
@@ -140,6 +253,66 @@ const CeramicPage: NextPage = () => {
         alignItems: 'center',
         justifyItems: 'center',
       }}>
+        {profileDoc &&
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyItems: 'center',
+            padding: '25px',
+          }}>
+            <img style={{
+              width: '200px',
+              borderRadius: '5px'
+            }} src={profileDoc.content.profileImage} />
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              color: 'white'
+            }}>
+              <div style={{
+                fontSize: '20px',
+                fontWeight: 'bold',
+                margin: '5px'
+              }}>{profileDoc.content.name}</div>
+              <div style={{
+                width: '200px',
+                textAlign: 'center',
+              }}>{profileDoc.content.handle}<br></br>#{profileDoc.content.id}</div>
+              <div style={{
+                margin: '5px',
+                width: '200px',
+              }}>{profileDoc.content.description}</div>
+            </div>
+          </div>}
+        <h2 style={{
+          fontWeight: 'bold',
+          margin: '5px',
+          color: 'white'
+        }}>NFTs</h2>
+        <div style={{
+          margin: '5px',
+          width: '200px',
+          color: 'yellowgreen',
+        }}>Assets:
+          {profileDoc && profileDoc?.content.assets.map((item: any, index: number) => (
+            <div key={index}>
+              <div>NFT Description: {item.itemDescription}</div>
+              <img src={item.itemImage} />
+              <div>Speed: {item.itemName}</div>
+              {item.itemAttributes.map((attribute: any, index: number) => (
+                <div>
+                  <div>Strength: {attribute.strength}</div>
+                  <div>Stamina: {attribute.stamina}</div>
+                  <div>Speed: {attribute.speed}</div>
+                  <div>Health: {attribute.health}</div>
+                  <div>Magic Mastery: {attribute.magicMastery}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <br></br>
         <button style={{
           backgroundColor: 'white',
           margin: '10px 100px',
@@ -164,45 +337,6 @@ const CeramicPage: NextPage = () => {
         }} onClick={loadSchemaDocument}>
           Load Schema Document
         </button>
-        {profileDoc &&
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: 'white',
-            alignItems: 'center',
-            justifyItems: 'center',
-            padding: '25px',
-            border: 'solid 3px red',
-            borderRadius: '5px'
-          }}>
-            <img style={{
-              width: '200px',
-              borderRadius: '5px'
-            }} src={profileDoc.content.image} />
-            <div style={{
-              fontSize: '20px',
-              fontWeight: 'bold',
-              margin: '5px'
-            }}>{profileDoc.content.name}</div>
-            <div style={{
-              margin: '5px',
-              width: '200px',
-            }}>{profileDoc.content.description}</div>
-            <div style={{
-              margin: '5px',
-              width: '200px',
-            }}>Attributes:
-              {profileDoc.content.attributes.map((attribute: any, index: number) => (
-                <div key={index}>
-                  <div>Strength: {attribute.strength}</div>
-                  <div>Stamina: {attribute.stamina}</div>
-                  <div>Speed: {attribute.speed}</div>
-                  <div>Health: {attribute.health}</div>
-                  <div>Magic Mastery: {attribute.magicMastery}</div>
-                </div>
-              ))}
-            </div>
-          </div>}
         <button style={{
           backgroundColor: 'white',
           margin: '10px 100px',
@@ -227,8 +361,8 @@ const CeramicPage: NextPage = () => {
         }} onClick={loadProfileDocument}>
           Load Profile
         </button>
-      </main>
-    </div>
+      </main >
+    </div >
   )
 };
 
