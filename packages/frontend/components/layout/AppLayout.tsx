@@ -16,7 +16,8 @@ interface AppLayoutProps {
 export const AppLayout = ({ children }: AppLayoutProps) => {
   const { address } = useAccount();
 
-  const [authenticatedCeramicInst, setAuthenticatedCeramicInst] = useState<any>();
+  const [authenticatedCeramicInst, setAuthenticatedCeramicInst] =
+    useState<any>();
 
   const authenticateWithEthereum = useCallback(
     (ethereumProvider: any) => {
@@ -52,7 +53,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           // The Ceramic client can create and update streams using the authenticated DID
           ceramic.did = did;
 
-          console.log(ceramic.did);
+          // console.log(ceramic.did);
 
           setAuthenticatedCeramicInst(ceramic);
         } catch (error) {

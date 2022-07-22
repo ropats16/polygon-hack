@@ -1,3 +1,5 @@
+import { Button } from "@/components/elements";
+
 const profile = {
   name: "Ricardo Cooper",
   imageUrl:
@@ -20,7 +22,13 @@ const profile = {
   },
 };
 
-export const ProfileHeader = () => {
+interface ProfileHeaderProps {
+  onEdit: () => void;
+  profile?: any;
+}
+
+export const ProfileHeader = ({ onEdit }: ProfileHeaderProps) => {
+  // console.log("profile", profile);
   return (
     <div>
       <div>
@@ -45,7 +53,9 @@ export const ProfileHeader = () => {
                 {profile.name}
               </h1>
             </div>
-            <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4"></div>
+            <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 ">
+              <Button onClick={() => onEdit()}>Edit Profile</Button>
+            </div>
           </div>
         </div>
         <div className="hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1">
