@@ -16,8 +16,7 @@
     "clean": "yarn workspace @create-web3/backend clean",
     "deploy": "yarn workspace @create-web3/backend deploy",
     "generate": "yarn workspace @create-web3/generator generate",
-    "update_info": "yarn workspace @create-web3/generator update_info",
-    "postinstall": "yarn workspace @create-web3/frontend postinstall"
+    "update_info": "yarn workspace @create-web3/generator update_info"
   },
   "workspaces": {
     "packages": [
