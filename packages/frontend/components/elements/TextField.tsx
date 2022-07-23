@@ -24,7 +24,7 @@ export const TextField: React.FC<TextFieldProps> = ({
     <div className={typeClass}>
       <label
         htmlFor={name}
-        className={"block text-sm font-medium text-gray-700"}
+        className={"block text-sm font-medium text-slate-700"}
       >
         {label}
       </label>
