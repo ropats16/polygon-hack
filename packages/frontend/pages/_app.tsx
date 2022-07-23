@@ -12,7 +12,10 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
   Chain,
+  Theme,
+  lightTheme,
 } from "@rainbow-me/rainbowkit";
+import merge from "lodash.merge";
 
 import { AppLayout } from "@/components/layout";
 
@@ -66,13 +69,19 @@ const wagmiClient = createClient({
   provider,
 });
 
+const customTheme: Theme = merge(lightTheme(), {
+  colors: {
+    accentColor: "linear-gradient(to right, #9333ea, #4f46e5)",
+  },
+});
+
 const App = ({ Component, pageProps }: AppProps) => {
   const isMounted = useIsMounted();
 
   if (!isMounted) return null;
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider coolMode chains={chains}>
+      <RainbowKitProvider coolMode chains={chains} theme={customTheme}>
         <AppLayout>
           <Component {...pageProps} />
         </AppLayout>

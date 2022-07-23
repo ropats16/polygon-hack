@@ -3,6 +3,7 @@ import { UserContext } from "@/components/layout";
 import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { ProfileHeader } from "@/components/sections/profile";
+import { Modal, Button, TextField, AddPhoto } from "@/components/elements";
 
 import { TileDocument } from "@ceramicnetwork/stream-tile";
 import { schemaContent } from "@/lib/ceramic-schema";
@@ -14,6 +15,10 @@ const ProfilePage: NextPage = () => {
   const { authenticatedCeramicInst } = useContext(UserContext);
   const ceramic = authenticatedCeramicInst;
   const [schemaDoc, setSchemaDoc] = useState<any>();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [name, setName] = useState("");
 
   useEffect(() => {
     const createSchemaDocument = async () => {
@@ -30,11 +35,36 @@ const ProfilePage: NextPage = () => {
 
   const handleEdit = async () => {
     console.log("Edit");
+    setIsOpen(!isOpen);
+  };
+
+  const handleSave = async () => {
+    console.log("Save");
+    setIsOpen(!isOpen);
   };
 
   return (
     <div>
       <ProfileHeader onEdit={() => handleEdit()} />
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <div className="">
+          <div>{name}</div>
+          <div className="my-2">
+            <TextField
+              name="name"
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div>
+            <AddPhoto onSelect={(image) => console.log(image)} />
+          </div>
+          <div className="my-2">
+            <Button onClick={() => handleSave()}>Save</Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
